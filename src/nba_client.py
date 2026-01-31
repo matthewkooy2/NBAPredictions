@@ -83,7 +83,7 @@ class NBAClient:
     Example usage:
         client = NBAClient()
         player_id = client.get_player_id("LeBron James")
-        games = client.get_player_gamelog(player_id, "2024-25")
+        games = client.get_player_gamelog(player_id, "2025-26")
     """
     
     def __init__(self, delay: float = REQUEST_DELAY):
@@ -133,12 +133,12 @@ class NBAClient:
             logger.error(f"Request failed: {endpoint_class.__name__} - {e}")
             raise
     
-    def get_all_players(self, season: str = "2024-25") -> pd.DataFrame:
+    def get_all_players(self, season: str = "2025-26") -> pd.DataFrame:
         """
         Get all players for a given season.
         
         Args:
-            season: NBA season string (e.g., "2024-25")
+            season: NBA season string (e.g., "2025-26")
             
         Returns:
             DataFrame with player info including PERSON_ID, DISPLAY_FIRST_LAST
@@ -159,7 +159,7 @@ class NBAClient:
         logger.info(f"Retrieved {len(df)} players")
         return df
     
-    def get_player_id(self, player_name: str, season: str = "2024-25") -> Optional[int]:
+    def get_player_id(self, player_name: str, season: str = "2025-26") -> Optional[int]:
         """
         Look up a player's ID by name.
 
@@ -208,7 +208,7 @@ class NBAClient:
     def get_player_gamelog(
         self, 
         player_id: int, 
-        season: str = "2024-25",
+        season: str = "2025-26",
         season_type: str = "Regular Season"
     ) -> pd.DataFrame:
         """
@@ -216,7 +216,7 @@ class NBAClient:
         
         Args:
             player_id: NBA player ID
-            season: NBA season string (e.g., "2024-25")
+            season: NBA season string (e.g., "2025-26")
             season_type: "Regular Season", "Playoffs", or "All Star"
             
         Returns:
@@ -244,7 +244,7 @@ class NBAClient:
     def get_team_gamelog(
         self,
         team_id: int,
-        season: str = "2024-25",
+        season: str = "2025-26",
         season_type: str = "Regular Season"
     ) -> pd.DataFrame:
         """
@@ -252,7 +252,7 @@ class NBAClient:
         
         Args:
             team_id: NBA team ID
-            season: NBA season string (e.g., "2024-25")
+            season: NBA season string (e.g., "2025-26")
             season_type: "Regular Season" or "Playoffs"
             
         Returns:
@@ -306,7 +306,7 @@ class NBAClient:
     
     def get_league_team_stats(
         self,
-        season: str = "2024-25",
+        season: str = "2025-26",
         season_type: str = "Regular Season"
     ) -> pd.DataFrame:
         """
@@ -402,7 +402,7 @@ if __name__ == "__main__":
     # Test 2: Get player game log
     print("\n2. Testing player gamelog:")
     if player_id:
-        games = client.get_player_gamelog(player_id, "2024-25")
+        games = client.get_player_gamelog(player_id, "2025-26")
         print(f"   Games retrieved: {len(games)}")
         if len(games) > 0:
             print(f"   Latest game: {games.iloc[-1]['GAME_DATE']} - {games.iloc[-1]['PTS']} PTS")
@@ -414,7 +414,7 @@ if __name__ == "__main__":
     
     # Test 4: Get league team stats
     print("\n4. Testing league team stats:")
-    team_stats = client.get_league_team_stats("2024-25")
+    team_stats = client.get_league_team_stats("2025-26")
     print(f"   Teams retrieved: {len(team_stats)}")
     print(f"   Columns: {team_stats.columns.tolist()[:10]}...")
     

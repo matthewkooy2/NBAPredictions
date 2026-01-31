@@ -8,3 +8,6 @@ scikit-learn
 streamlit
 pyarrow
 tqdm
+fastapi
+uvicorn[standard]
+python-multipart
