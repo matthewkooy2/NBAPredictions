@@ -1,0 +1,9 @@
+nba_api
+pandas
+numpy
+requests-cache
+tenacity
+catboost
+scikit-learn
+streamlit
+pyarrow
