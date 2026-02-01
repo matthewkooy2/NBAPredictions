@@ -9,7 +9,6 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.0
-    plan: free
 
   # React Frontend
   - type: web
@@ -24,4 +23,3 @@ services:
     envVars:
       - key: VITE_API_URL
         value: https://nba-predictor-api.onrender.com
-    plan: free
