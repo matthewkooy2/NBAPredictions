@@ -3,7 +3,7 @@ import axios from 'axios';
 import {Search, TrendingUp, Calendar, Users} from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-const API_BASE = 'http://localhost:8000';
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
