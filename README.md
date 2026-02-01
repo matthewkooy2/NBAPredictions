@@ -52,13 +52,23 @@ This application analyzes historical NBA data to predict player statistics (poin
 
 ## Quick Start
 
-### Backend
+### Streamlit App (Recommended)
+```bash
+source .venv/bin/activate
+streamlit run streamlit_app.py
+```
+
+Visit http://localhost:8501 to use the application.
+
+### Full Stack (React + FastAPI)
+
+**Backend:**
 ```bash
 source .venv/bin/activate
 uvicorn backend.main:app --reload --port 8000
 ```
 
-### Frontend
+**Frontend:**
 ```bash
 cd frontend
 npm run dev
@@ -94,6 +104,21 @@ NBAPredictions/
 
 Interactive API documentation available at http://localhost:8000/docs
 
-## License
+## Deployment
 
-MIT
+### Streamlit Cloud (Free, No Credit Card Required)
+
+1. Push your code to GitHub
+2. Go to [share.streamlit.io](https://share.streamlit.io)
+3. Sign in with GitHub
+4. Click "New app"
+5. Select your repository and `streamlit_app.py`
+6. Click "Deploy"
+
+Your app will be live at `https://your-app-name.streamlit.app` in a few minutes!
+
+### Render (Requires Credit Card on File)
+
+See [render.yaml](render.yaml) for configuration. Deploy both React frontend and FastAPI backend.
+
+

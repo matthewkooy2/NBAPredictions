@@ -6,6 +6,7 @@ tenacity
 catboost
 scikit-learn
 streamlit
+plotly
 pyarrow
 tqdm
 fastapi
