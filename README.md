@@ -1,194 +1,99 @@
-# NBA Stats Predictor 🏀
+# NBA Stats Predictor
 
-A full-stack machine learning web application that predicts NBA player statistics for their next scheduled game using React + FastAPI + CatBoost.
+A full-stack machine learning application that predicts NBA player performance for upcoming games. Built with React, FastAPI, and CatBoost to demonstrate modern software engineering and machine learning practices.
 
-![Tech Stack](https://img.shields.io/badge/React-18-blue) ![FastAPI](https://img.shields.io/badge/FastAPI-0.128-green) ![Python](https://img.shields.io/badge/Python-3.9+-yellow)
+**Created by Matthew Kooy**
 
-## ✨ Features
+## Overview
 
-- 🔍 **Smart Player Search** - Autocomplete search with Unicode support (handles Jokić, Čančar, etc.)
-- 📊 **ML-Powered Predictions** - CatBoost models predict Points, Rebounds, and Assists
-- 📈 **Interactive Charts** - Visualize recent performance trends with Recharts
-- 🎯 **Context-Aware** - Considers opponent defensive rating, pace, rest days, home/away
-- 🎨 **Modern UI** - Beautiful, responsive design with Tailwind CSS
-- ⚡ **Fast & Cached** - SQLite caching with 6-hour expiry for NBA API
+This application analyzes historical NBA data to predict player statistics (points, rebounds, assists) for their next scheduled game. It features a responsive web interface, RESTful API, and production-ready ML pipeline.
 
-## 🚀 Quick Start
+## Key Features
+
+- **Machine Learning Predictions**: CatBoost models trained on 10,000+ games from 60 NBA players
+- **Smart Player Search**: Real-time autocomplete with Unicode support for international players
+- **Context-Aware Forecasting**: Considers opponent strength, rest days, home/away status, and recent performance
+- **Interactive Visualizations**: Charts showing recent performance trends and prediction confidence
+- **Production-Ready Architecture**: Caching, rate limiting, error handling, and API documentation
+
+## Technical Highlights
+
+### Machine Learning
+- Gradient boosting models (CatBoost) with feature engineering
+- 19 engineered features including rolling averages, opponent metrics, and rest calculations
+- Proper train/test splitting to prevent data leakage
+- Models outperform baseline (10-game average) across all metrics
+
+### Backend (Python)
+- FastAPI for high-performance REST API
+- SQLite caching with 6-hour expiry for external API calls
+- Exponential backoff retry logic for reliability
+- Pydantic schemas for request/response validation
+- Comprehensive logging and error handling
+
+### Frontend (JavaScript)
+- React 18 with modern hooks and state management
+- Tailwind CSS for responsive, professional UI
+- Recharts for data visualization
+- Axios for API communication
+
+### Data Engineering
+- NBA API client with rate limiting and retry logic
+- Automated dataset creation from 3 seasons of data
+- Efficient data processing with Pandas and NumPy
+- Unicode normalization for player name matching
+
+## Tech Stack
+
+**Frontend**: React, Vite, Tailwind CSS, Recharts
+**Backend**: FastAPI, Pydantic, Uvicorn
+**ML/Data**: CatBoost, Pandas, NumPy, scikit-learn, nba_api
+**Infrastructure**: SQLite caching, requests-cache, tenacity (retries)
+
+## Quick Start
 
 ### Backend
 ```bash
-# Activate virtual environment
 source .venv/bin/activate
-
-# Start FastAPI server
 uvicorn backend.main:app --reload --port 8000
 ```
 
 ### Frontend
 ```bash
-# From frontend directory
+cd frontend
 npm run dev
 ```
 
-Visit **http://localhost:5173** to use the app!
+Visit http://localhost:5173 to use the application.
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 NBAPredictions/
 ├── backend/              # FastAPI REST API
-│   ├── main.py          # API endpoints
-│   └── api/models.py    # Pydantic schemas
-├── frontend/            # React + Vite app
-│   └── src/App.jsx      # Main UI component
-├── src/                 # Python ML pipeline
-│   ├── nba_client.py    # NBA API wrapper
-│   ├── features.py      # Feature engineering
-│   ├── data_builder.py  # Dataset creation
-│   ├── train.py         # Model training
-│   └── predict.py       # CLI predictions
-├── models/              # Trained models (CatBoost)
-└── data/processed/      # Training dataset
+├── frontend/             # React application
+├── src/                  # ML pipeline and data processing
+├── models/               # Trained CatBoost models
+└── data/                 # Dataset and cache
 ```
 
-## 🛠️ Tech Stack
-
-**Frontend:**
-- React 18 + Vite
-- Tailwind CSS
-- Recharts (data viz)
-- Axios
-
-**Backend:**
-- FastAPI
-- Pydantic
-- Uvicorn
-
-**ML Pipeline:**
-- CatBoost (gradient boosting)
-- Pandas & NumPy
-- scikit-learn
-- nba_api
-
-## 📊 Model Performance
+## Model Performance
 
 | Metric | Points | Rebounds | Assists |
 |--------|--------|----------|---------|
-| **Model MAE** | 5.20 | 2.07 | 1.57 |
-| **Baseline MAE** | 5.24 | 2.10 | 1.60 |
-| **Improvement** | +0.62% | +1.73% | +1.90% |
+| MAE | 5.20 | 2.07 | 1.57 |
+| Baseline MAE | 5.24 | 2.10 | 1.60 |
+| Improvement | +0.62% | +1.73% | +1.90% |
 
-*All models beat the last-10-game average baseline.*
+## API Endpoints
 
-## 🗂️ Dataset
+- `GET /api/players/search?query={name}` - Search for players
+- `GET /api/players/{id}/predict` - Get predictions for next game
+- `GET /api/players/{id}/history` - Get recent game history
+- `GET /api/health` - Health check
 
-- **60 players** across 3 seasons (2022-25)
-- **10,063 games** total
-- **19 engineered features:**
-  - Rolling stats (5/10 game windows)
-  - Rest days & back-to-back flags
-  - Opponent metrics (def rating, pace, net rating)
-  - Home/away indicators
+Interactive API documentation available at http://localhost:8000/docs
 
-## 🔌 API Endpoints
+## License
 
-```
-GET  /api/players/search?query=lebron
-GET  /api/players/{id}/predict
-GET  /api/players/{id}/history?limit=10
-GET  /api/health
-```
-
-Visit **http://localhost:8000/docs** for interactive API documentation.
-
-## 💻 Installation
-
-### Prerequisites
-- Python 3.9+
-- Node.js 16+
-
-### Setup
-
-1. **Clone and install Python deps:**
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-```
-
-2. **Build dataset & train models:**
-```bash
-python -m src.data_builder  # ~5-10 min
-python -m src.train
-```
-
-3. **Install frontend deps:**
-```bash
-cd frontend
-npm install
-```
-
-## 🎯 Usage
-
-### Web App (Recommended)
-1. Start backend: `uvicorn backend.main:app --reload`
-2. Start frontend: `cd frontend && npm run dev`
-3. Open http://localhost:5173
-
-### CLI (Alternative)
-```bash
-python -m src.predict --player "Nikola Jokic"
-```
-
-## 🔑 Key Features
-
-**Leakage Prevention:**
-- Rolling features shifted by 1 game
-- Time-based train/test splits only
-- No look-ahead bias
-
-**Robust API Client:**
-- SQLite caching (6hr expiry)
-- Exponential backoff retries
-- Rate limiting (0.6s delay)
-- Unicode name normalization
-
-**Production Ready:**
-- FastAPI with auto docs
-- CORS enabled
-- Pydantic validation
-- Error handling
-
-## 🎨 UI Highlights
-
-- Gradient backgrounds
-- Real-time search
-- Loading states
-- Responsive grid layouts
-- Color-coded stats (green/blue/purple)
-- Interactive line charts
-
-## 📝 Future Enhancements
-
-- [ ] Injury status integration
-- [ ] Player comparison tool
-- [ ] Mobile app (React Native)
-- [ ] Real-time updates
-- [ ] Historical accuracy tracking
-
-## 📄 License
-
-MIT - Feel free to use for your own projects!
-
-## 👨‍💻 Author
-
-Built as a full-stack ML portfolio project demonstrating:
-- Machine Learning (CatBoost, feature engineering, model evaluation)
-- Backend Development (FastAPI, REST APIs, caching)
-- Frontend Development (React, Tailwind, data visualization)
-- Data Engineering (NBA API, dataset creation, processing)
-- MLOps (training pipelines, model serving)
-
----
-
-**Note:** Uses historical NBA data for predictions. Not for gambling purposes.
+MIT
