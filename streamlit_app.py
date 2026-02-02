@@ -180,8 +180,11 @@ if search_query and len(search_query) >= 2:
                         # Create chart
                         fig = go.Figure()
 
+                        # X-axis shows games ago (10, 9, 8, ..., 1) so most recent is on the right
+                        x_values = list(range(len(recent_games), 0, -1))
+
                         fig.add_trace(go.Scatter(
-                            x=list(range(1, len(recent_games) + 1)),
+                            x=x_values,
                             y=recent_games['PTS'],
                             mode='lines+markers',
                             name='Points',
@@ -190,7 +193,7 @@ if search_query and len(search_query) >= 2:
                         ))
 
                         fig.add_trace(go.Scatter(
-                            x=list(range(1, len(recent_games) + 1)),
+                            x=x_values,
                             y=recent_games['REB'],
                             mode='lines+markers',
                             name='Rebounds',
@@ -199,7 +202,7 @@ if search_query and len(search_query) >= 2:
                         ))
 
                         fig.add_trace(go.Scatter(
-                            x=list(range(1, len(recent_games) + 1)),
+                            x=x_values,
                             y=recent_games['AST'],
                             mode='lines+markers',
                             name='Assists',
