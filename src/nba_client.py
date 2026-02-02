@@ -41,7 +41,15 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Set up cache directory
-CACHE_DIR = Path("data/cache")
+# Use /tmp for cloud deployments (writable), fall back to local data/cache
+import os
+if os.path.exists("/tmp"):
+    # Cloud environment (Streamlit Cloud, etc.) - use /tmp
+    CACHE_DIR = Path("/tmp/nba_cache")
+else:
+    # Local environment - use data/cache
+    CACHE_DIR = Path("data/cache")
+
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
 
 # Install cache for requests (used by nba_api under the hood)
